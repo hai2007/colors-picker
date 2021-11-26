@@ -1,4 +1,4 @@
-# colors-picker
+# [colors-picker](https://hai2007.github.io/colors-picker/)
 一个类似浏览器调试工具中颜色选择器的H5版本的小组件。
 
 <p>
@@ -14,6 +14,9 @@
 使用的时候遇到任何问题或有好的建议，请点击进入[issue](https://github.com/hai2007/colors-picker/issues)！
 
 ## How to use?
+
+<img src='./design.png' />
+
 具体的使用你可以[查阅文档](https://hai2007.github.io/colors-picker)哦~
 
 开源协议
