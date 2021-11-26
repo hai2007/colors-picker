@@ -1,0 +1,38 @@
+{
+  "name": "colors-picker",
+  "version": "0.1.0-alpha",
+  "description": "一个类似浏览器调试工具中颜色选择器的H5版本的小组件。",
+  "main": "dist/colors-picker.min.js",
+  "scripts": {
+    "start": "npm install && npm run dev",
+    "dev": "rollup --config rollup.config.js -i ./src/index.js -o ./docs/colors-picker.js --watch",
+    "build": "nodejs -d dist && rollup --config rollup.config.js && terser ./dist/colors-picker.js -o ./dist/colors-picker.min.js && nodejs --config nodejs.config.js && nodejs -c ./dist/colors-picker.js ./docs/colors-picker.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hai2007/colors-picker.git"
+  },
+  "keywords": [
+    "color",
+    "picker"
+  ],
+  "author": "你好2007",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hai2007/colors-picker/issues"
+  },
+  "homepage": "https://github.com/hai2007/colors-picker#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@hai2007/nodejs": "^2.0.1",
+    "@rollup/plugin-babel": "^5.2.1",
+    "rollup": "^1.17.0",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "terser": "^4.1.2"
+  },
+  "dependencies": {
+    "@hai2007/tool": "^0.9.3"
+  }
+}
