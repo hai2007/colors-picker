@@ -1,5 +1,36 @@
-let ColorsPicker = function () {
+import formatColor from './formatColor';
+import mount from './mount';
 
+let ColorsPicker = function (el, initColor) {
+
+    // 挂载点和颜色
+    let target = el;
+    let color = initColor ? formatColor(initColor) : [255, 255, 255, 1];
+
+    // 颜色回调方法
+    let callbacks = [];
+
+    let ColorsPickerInstance = {
+
+        /**
+         * ColorsPicker(el,'red').then(color=>{
+         *      // todo
+         * })
+         */
+        then(callback) {
+            callbacks.push(callback);
+            return ColorsPickerInstance;
+        }
+    }
+
+    // 绑定到页面中去
+    mount(target, color, _color => {
+        for (let callback of callbacks) {
+            callback(_color);
+        }
+    });
+
+    return ColorsPickerInstance;
 };
 
 // 判断当前环境，如果不是浏览器环境
