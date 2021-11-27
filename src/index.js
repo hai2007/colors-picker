@@ -1,4 +1,4 @@
-import formatColor from './formatColor';
+import formatColor from '@hai2007/browser/formatColor';
 import mount from './mount';
 
 let ColorsPicker = function (el, initColor) {

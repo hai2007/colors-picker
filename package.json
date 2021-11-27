@@ -33,6 +33,7 @@
     "terser": "^4.1.2"
   },
   "dependencies": {
-    "@hai2007/tool": "^0.9.3"
+    "@hai2007/browser": "^0.2.0",
+    "@hai2007/tool": "^1.0.0"
   }
 }
