@@ -44,6 +44,15 @@
             font-size: 14px;
             margin: 10px 0;
         }
+
+        #target {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            outline: 1px solid gray;
+            background-color: red;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -58,17 +67,16 @@
     <p>
         温馨提示：开发中，敬请期待！
     </p>
-    <input type="text" id='target'>
+    <div type="text" id='target'>
 
-    <script>
+        <script>
 
-        ColorsPicker(document.getElementById('target'), 'red').then(function (color) {
+            ColorsPicker(document.getElementById('target'), 'red').then(function (color) {
+                console.log(color);
+                document.getElementById('target').style.backgroundColor = color;
+            });
 
-            console.log(color);
-
-        });
-
-    </script>
+        </script>
 
 </body>
 
