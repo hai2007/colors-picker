@@ -9,7 +9,7 @@
  * Copyright (c) 2021 hai2007 走一步，再走一步。
  * Released under the MIT license
  *
- * Date:Mon Nov 29 2021 11:43:25 GMT+0800 (中国标准时间)
+ * Date:Mon Nov 29 2021 17:48:20 GMT+0800 (中国标准时间)
  */
 (function () {
   'use strict';
@@ -413,10 +413,53 @@
 
     if (!dialog) {
       // 准备好模板后追加到页面中
-      xhtml.append(document.body, "<div id='colors-picker-dialog'>\n            <canvas style='width:300px;height:160px;' width='300px' height='160px'>\u975E\u5E38\u62B1\u6B49\uFF0C\u60A8\u7684\u6D4F\u89C8\u5668\u4E0D\u652F\u6301canvas!</canvas>\n\n        </div>"); // 更新弹框结点
+      xhtml.append(document.body, "<div id='colors-picker-dialog'\n                style='\n                    position: fixed;\n                    outline: gray solid 1px;\n                    background-color: white;\n                    font-size:0;\n                '>\n            <div style='outline:1px solid gray;position: relative; overflow: hidden;' id='colors-picker-dialog_canvas0_frame'>\n                <canvas\n                    id='colors-picker-dialog_canvas0'\n                    style='width:300px;height:160px;'\n                    width='300px'\n                    height='160px'>\n                        \u975E\u5E38\u62B1\u6B49\uFF0C\u60A8\u7684\u6D4F\u89C8\u5668\u4E0D\u652F\u6301canvas!\n                </canvas>\n                <span\n                    style='\n                        position: absolute;\n                        position: absolute;\n                        width: 12px;\n                        height: 12px;\n                        outline: 1px solid gray;\n                        border-radius: 50%;\n                        right: -6px;\n                        top: -6px;\n                        cursor:pointer;\n                    ' id='colors-picker-dialog_canvas0_btn'></span>\n            </div>\n            <div style='text-align:center;margin:20px 0;'>\n                <div\n                    id='colors-picker-dialog_color'\n                    style='\n                        display:inline-block;\n                        width:40px;\n                        height:40px;\n                        outline:1px solid gray;\n                        border-radius:50%;\n                        margin-right:10px;\n                '></div>\n                <div style='display:inline-block;'>\n                    <div style='outline:1px solid gray;position: relative;' id='colors-picker-dialog_canvas1_frame'>\n                        <canvas\n                            id='colors-picker-dialog_canvas1'\n                            style='\n                                width:200px;\n                                height:16px;\n                            'width='200px'height='16px'>\n                                \u975E\u5E38\u62B1\u6B49\uFF0C\u60A8\u7684\u6D4F\u89C8\u5668\u4E0D\u652F\u6301canvas!\n                        </canvas>\n                        <span\n                            style='\n                                position: absolute;\n                                width: 22px;\n                                height: 22px;\n                                outline: 1px solid gray;\n                                display: inline-block;\n                                border-radius: 50%;\n                                right: -11px;\n                                top: -3.5px;\n                                cursor:pointer;\n                                background: #faf8f8;'\n                            id='colors-picker-dialog_canvas1_btn'></span>\n                    </div>\n                    <div style='outline:1px solid gray;margin-top:10px;position: relative;' id='colors-picker-dialog_canvas2_frame'>\n                        <canvas\n                            id='colors-picker-dialog_canvas2'\n                            style='\n                                width:200px;\n                                height:16px;\n                            'width='200px'height='16px'>\n                                \u975E\u5E38\u62B1\u6B49\uFF0C\u60A8\u7684\u6D4F\u89C8\u5668\u4E0D\u652F\u6301canvas!\n                        </canvas>\n                        <span\n                            style='\n                                position: absolute;\n                                width: 22px;\n                                height: 22px;\n                                outline: 1px solid gray;\n                                display: inline-block;\n                                border-radius: 50%;\n                                right: -11px;\n                                top: -3.5px;\n                                cursor:pointer;\n                                background: #faf8f8;'\n                            id='colors-picker-dialog_canvas2_btn'></span>\n                    </div>\n                </div>\n            </div>\n            <div style='text-align:center;padding:10px;'>\n                <button\n                    id='colors-picker-dialog_btn_cancel'\n                    style='\n                        margin-right:30px;\n                        background-color:white;\n                        width:90px;\n                        border-radius:5px;\n                        cursor:pointer;\n                    '>\u53D6\u6D88</button>\n                <button\n                    id='colors-picker-dialog_btn_checked'\n                    style='\n                        background-color:#449cf6;\n                        color:white;width:90px;\n                        border-radius:5px;\n                        cursor:pointer;\n                    '>\u786E\u5B9A</button>\n            </div>\n        </div>"); // 更新弹框结点
 
       dialog = document.getElementById('colors-picker-dialog');
       dialog.style.display = 'none';
+      var btn_flag = -1; // 标记当前谁被按下
+
+      xhtml.bind(document.getElementById('colors-picker-dialog_canvas0_btn'), 'mousedown', function () {
+        btn_flag = 0;
+      });
+      xhtml.bind(document.getElementById('colors-picker-dialog_canvas1_btn'), 'mousedown', function () {
+        btn_flag = 1;
+      });
+      xhtml.bind(document.getElementById('colors-picker-dialog_canvas2_btn'), 'mousedown', function () {
+        btn_flag = 2;
+      }); // 移动
+
+      xhtml.bind(document.body, 'mousemove', function (event) {
+        if ([0, 1, 2].indexOf(btn_flag) > -1) {
+          var position = xhtml.mousePosition(document.getElementById('colors-picker-dialog_canvas' + btn_flag + '_frame'), event);
+          var btn = document.getElementById('colors-picker-dialog_canvas' + btn_flag + '_btn');
+
+          if (btn_flag === 0) {
+            if (position.y > 160 || position.y < 0 || position.x < 0 || position.x > 300) return; // 更新位置
+
+            btn.style.left = position.x - 6 + 'px';
+            btn.style.top = position.y - 6 + 'px'; // 更新值
+          } else {
+            if (position.x < 0 || position.x > 200) return; // 更新位置
+
+            btn.style.left = position.x - 11 + 'px'; // 更新值
+          }
+        }
+      }); // 标记被清空
+
+      xhtml.bind(document.body, 'mouseup', function () {
+        btn_flag = -1;
+      }); // 取消按钮
+
+      xhtml.bind(document.getElementById('colors-picker-dialog_btn_cancel'), 'click', function () {
+        dialog.style.display = 'none';
+      }); // 确定按钮
+
+      xhtml.bind(document.getElementById('colors-picker-dialog_btn_checked'), 'click', function () {
+        dialog.style.display = 'none';
+
+        dialog._colors_picker_.callback('开发中');
+      });
     }
 
     doit = function doit() {
@@ -425,8 +468,11 @@
         callback: callback,
         target: target
       }; // 修改定位
-      // todo
-      // 显示出来
+
+      var elPosition = xhtml.offsetPosition(target);
+      var elSize = xhtml.size(target);
+      dialog.style.left = elPosition.left + "px";
+      dialog.style.top = elPosition.top + elSize.height + "px"; // 显示出来
 
       dialog.style.display = 'block';
     };

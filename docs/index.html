@@ -13,6 +13,7 @@
         body {
             width: 900px;
             margin: auto;
+            background-color: beige;
         }
 
         .fork {
@@ -45,13 +46,21 @@
             margin: 10px 0;
         }
 
-        #target {
+        .color {
             display: inline-block;
             width: 20px;
             height: 20px;
             outline: 1px solid gray;
-            background-color: red;
+
             cursor: pointer;
+        }
+
+        #target1 {
+            background-color: red;
+        }
+
+        #target2 {
+            background-color: blue;
         }
     </style>
 </head>
@@ -67,16 +76,22 @@
     <p>
         温馨提示：开发中，敬请期待！
     </p>
-    <div type="text" id='target'>
+    <div class="color" id='target1'></div>
+    <div class="color" id='target2'></div>
 
-        <script>
+    <script>
 
-            ColorsPicker(document.getElementById('target'), 'red').then(function (color) {
-                console.log(color);
-                document.getElementById('target').style.backgroundColor = color;
-            });
+        ColorsPicker(document.getElementById('target1'), 'red').then(function (color) {
+            console.log(color + "1");
+            document.getElementById('target1').style.backgroundColor = color;
+        });
 
-        </script>
+        ColorsPicker(document.getElementById('target2'), 'blue').then(function (color) {
+            console.log(color + "2");
+            document.getElementById('target2').style.backgroundColor = color;
+        });
+
+    </script>
 
 </body>
 
