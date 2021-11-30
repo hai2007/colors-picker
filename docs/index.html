@@ -56,11 +56,13 @@
         }
 
         #target1 {
-            background-color: red;
+            background-color: #1eff0087;
         }
 
-        #target2 {
-            background-color: blue;
+        pre {
+            margin: 20px;
+            padding: 10px;
+            outline: 1px solid gray;
         }
     </style>
 </head>
@@ -73,22 +75,55 @@
         colors-picker
         <h2>（一个类似浏览器调试工具中颜色选择器的H5版本的小组件）</h2>
     </header>
+    <h3>
+        引入
+    </h3>
     <p>
-        温馨提示：开发中，敬请期待！
+        首先你需要通过命令行安装，就像这样：
     </p>
-    <div class="color" id='target1'></div>
-    <div class="color" id='target2'></div>
-
+    <pre>npm install --save colors-picker</pre>
+    <p>
+        安装好了以后，引入即可：
+    </p>
+    <pre>import ColorsPicker from 'colors-picker';</pre>
+    <p>
+        当然，你也可以通过CDN的方式引入：
+    </p>
+    <pre>&lt;script src='https://cdn.jsdelivr.net/npm/colors-picker@0'&gt;&lt;/script&gt;</pre>
+    <h3>
+        语法
+    </h3>
+    <pre>ColorsPicker(target, initColor).then(function (color) {
+    // todo
+});</pre>
+    <p>
+        其中，target表示页面交互DOM，initColor是初始化颜色（合法的css值即可，格式无要求）。
+    </p>
+    <p>
+        最后，通过then传递一个回调，其中的形参color表示你选择的颜色值。
+    </p>
+    <h3>
+        例子
+    </h3>
+    <p>
+        让我们举个例子：右边这个色块就是运行的效果：
+        <span class="color" id='target1'></span>
+        （你可以点击一下试试效果，当然，色块的UI可以自由定义）。
+    </p>
+    <p>
+        要实现那样的色块，首先，你需要在页面中准备一个可点击的节点，比如一个span标签：
+    </p>
+    <pre>&lt;span id='target'&gt;&lt;/span&gt;</pre>
+    <p>
+        然后，就很简单了：
+    </p>
+    <pre>ColorsPicker(document.getElementById('target'), '#1eff0087').then(function (color) {
+    document.getElementById('target1').style.backgroundColor = color;
+});</pre>
     <script>
 
-        ColorsPicker(document.getElementById('target1'), 'red').then(function (color) {
-            console.log(color + "1");
+        ColorsPicker(document.getElementById('target1'), '#1eff0087').then(function (color) {
             document.getElementById('target1').style.backgroundColor = color;
-        });
-
-        ColorsPicker(document.getElementById('target2'), 'blue').then(function (color) {
-            console.log(color + "2");
-            document.getElementById('target2').style.backgroundColor = color;
         });
 
     </script>
