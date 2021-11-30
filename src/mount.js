@@ -27,11 +27,11 @@ export default function (target, color, callback, title) {
                     border-radius: 5px;
                     background-color: white;
                     font-size:0;
+                    user-select: none;
                 '>
             <div id='colors-picker-dialog_move' style='
                 font-size: 16px;
                 text-align: center;
-                user-select: none;
                 cursor: move;
                 border-radius: 5px 5px 0 0;
                 line-height: 30px;
@@ -52,10 +52,10 @@ export default function (target, color, callback, title) {
                         position: absolute;
                         width: 12px;
                         height: 12px;
-                        outline: 1px solid gray;
                         border-radius: 50%;
                         right: -6px;
                         top: -6px;
+                        box-shadow: 0 0 5px 3px #75757e;
                         cursor:pointer;
                     ' id='colors-picker-dialog_canvas0_btn'></span>
             </div>
@@ -66,9 +66,9 @@ export default function (target, color, callback, title) {
                         display:inline-block;
                         width:40px;
                         height:40px;
-                        outline:1px solid gray;
+                        box-shadow: rgb(117, 117, 126) 0px 0px 9px 0px;
                         border-radius:50%;
-                        margin-right:10px;
+                        margin-right:25px;
                 '></div>
                 <div style='display:inline-block;'>
                     <div style='position: relative;' id='colors-picker-dialog_canvas1_frame'>
@@ -249,7 +249,7 @@ export default function (target, color, callback, title) {
             target,
             color_rgb: [target._color_[0], target._color_[1], target._color_[2]],
             color_alpha: target._color_[3],
-            pointer_position: [300, 160]
+            pointer_position: [300, 0]
         };
 
         /**
