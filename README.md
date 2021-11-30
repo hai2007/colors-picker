@@ -15,7 +15,7 @@
 
 ## How to use?
 
-<img src='./design.png' />
+<img src='./view.png' />
 
 具体的使用你可以[查阅文档](https://hai2007.github.io/colors-picker)哦~
 

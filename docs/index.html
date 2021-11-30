@@ -93,7 +93,7 @@
     <h3>
         语法
     </h3>
-    <pre>ColorsPicker(target, initColor).then(function (color) {
+    <pre>ColorsPicker(target, initColor,title='选择颜色').then(function (color) {
     // todo
 });</pre>
     <p>
@@ -122,7 +122,7 @@
 });</pre>
     <script>
 
-        ColorsPicker(document.getElementById('target1'), '#1eff0087').then(function (color) {
+        ColorsPicker(document.getElementById('target1'), '#1eff0087', '请选择颜色').then(function (color) {
             document.getElementById('target1').style.backgroundColor = color;
         });
 

@@ -4,12 +4,12 @@
  *
  * author 你好2007 < https://hai2007.gitee.io/sweethome >
  *
- * version 0.1.1
+ * version 0.2.0
  *
  * Copyright (c) 2021 hai2007 走一步，再走一步。
  * Released under the MIT license
  *
- * Date:Tue Nov 30 2021 13:10:43 GMT+0800 (中国标准时间)
+ * Date:Tue Nov 30 2021 17:28:48 GMT+0800 (中国标准时间)
  */
 (function () {
   'use strict';
@@ -511,7 +511,35 @@
     document.getElementById('colors-picker-dialog_color').style.backgroundColor = 'rgba(' + color_rgba[0] + ',' + color_rgba[1] + ',' + color_rgba[2] + ',' + color_rgba[3] + ')';
   }
 
-  function mount (target, color, callback) {
+  function dragdrop () {
+    var el = document.getElementById('colors-picker-dialog_move'); //绑定鼠标左键按下事件
+
+    xhtml.bind(el, 'mousedown', function mousedown(event) {
+      //解决浏览器全选无法拖拽弹框
+      el.setCapture && el.setCapture(); // 寻找窗口轮廓
+
+      var _el = el.parentNode;
+      var lf = event.clientX;
+      var tp = event.clientY;
+      var left = xhtml.getStyle(_el, 'left').replace('px', '');
+      var top = xhtml.getStyle(_el, 'top').replace('px', ''); //绑定鼠标移动事件
+
+      function mousemove(event) {
+        _el.style.left = left - -event.clientX - lf + 'px';
+        _el.style.top = top - -event.clientY - tp + 'px';
+      }
+
+      xhtml.bind(document, 'mousemove', mousemove); //绑定鼠标松开事件,清除鼠标移动绑定
+
+      xhtml.bind(document, 'mouseup', function (event) {
+        xhtml.unbind(document, 'mousemove', mousemove);
+        _el.releaseCapture && _el.releaseCapture();
+        return false;
+      });
+    });
+  }
+
+  function mount (target, color, callback, title) {
     var dialog = document.getElementById('colors-picker-dialog'),
         doit;
     target._color_ = color;
@@ -519,7 +547,8 @@
 
     if (!dialog) {
       // 准备好模板后追加到页面中
-      xhtml.append(document.body, "<div id='colors-picker-dialog'\n                style='\n                    position: fixed;\n                    outline: gray solid 1px;\n                    background-color: white;\n                    font-size:0;\n                '>\n            <div style='outline:1px solid gray;position: relative; overflow: hidden;' id='colors-picker-dialog_canvas0_frame'>\n                <canvas\n                    id='colors-picker-dialog_canvas0'\n                    style='width:300px;height:160px;'\n                    width='300px'\n                    height='160px'>\n                        \u975E\u5E38\u62B1\u6B49\uFF0C\u60A8\u7684\u6D4F\u89C8\u5668\u4E0D\u652F\u6301canvas!\n                </canvas>\n                <span\n                    style='\n                        position: absolute;\n                        position: absolute;\n                        width: 12px;\n                        height: 12px;\n                        outline: 1px solid gray;\n                        border-radius: 50%;\n                        right: -6px;\n                        top: -6px;\n                        cursor:pointer;\n                    ' id='colors-picker-dialog_canvas0_btn'></span>\n            </div>\n            <div style='text-align:center;margin:20px 0;'>\n                <div\n                    id='colors-picker-dialog_color'\n                    style='\n                        display:inline-block;\n                        width:40px;\n                        height:40px;\n                        outline:1px solid gray;\n                        border-radius:50%;\n                        margin-right:10px;\n                '></div>\n                <div style='display:inline-block;'>\n                    <div style='position: relative;' id='colors-picker-dialog_canvas1_frame'>\n                        <div id='colors-picker-dialog_canvas1'\n                            style='\n                                width:200px;\n                                height:16px;\n                                background-image: linear-gradient(to right, #f00, #f0f,#00f,#0ff,#0f0,#ff0,#f00); '>\n                        </div>\n                        <span\n                            style='\n                                position: absolute;\n                                width: 22px;\n                                height: 22px;\n                                display: inline-block;\n                                border-radius: 50%;\n                                right: -11px;\n                                top: -3.5px;\n                                cursor:pointer;\n                                box-shadow: 0 0 2px 0px grey;\n                                background: #faf8f8;'\n                            id='colors-picker-dialog_canvas1_btn'></span>\n                    </div>\n                    <div style='margin-top:10px;position: relative;' id='colors-picker-dialog_canvas2_frame'>\n                        <div id='colors-picker-dialog_canvas2'\n                            style='\n                                width:200px;\n                                height:16px;\n                                background-image: linear-gradient(to right, #f000, red); '>\n                        </div>\n                        <span\n                            style='\n                                position: absolute;\n                                width: 22px;\n                                height: 22px;\n                                box-shadow: 0 0 2px 0px grey;\n                                display: inline-block;\n                                border-radius: 50%;\n                                right: -11px;\n                                top: -3.5px;\n                                cursor:pointer;\n                                background: #faf8f8;'\n                            id='colors-picker-dialog_canvas2_btn'></span>\n                    </div>\n                </div>\n            </div>\n            <div style='text-align:center;padding:10px;'>\n                <button\n                    id='colors-picker-dialog_btn_cancel'\n                    style='\n                        margin-right:30px;\n                        background-color:white;\n                        width:90px;\n                        border-radius:5px;\n                        cursor:pointer;\n                    '>\u53D6\u6D88</button>\n                <button\n                    id='colors-picker-dialog_btn_checked'\n                    style='\n                        background-color:#449cf6;\n                        color:white;width:90px;\n                        border-radius:5px;\n                        cursor:pointer;\n                    '>\u786E\u5B9A</button>\n            </div>\n        </div>"); // 更新弹框结点
+      xhtml.append(document.body, "<div id='colors-picker-dialog'\n                style='\n                    position: fixed;\n                    box-shadow: 0 0 7px 1px #9393a0;\n                    border-radius: 5px;\n                    background-color: white;\n                    font-size:0;\n                '>\n            <div id='colors-picker-dialog_move' style='\n                font-size: 16px;\n                text-align: center;\n                user-select: none;\n                cursor: move;\n                border-radius: 5px 5px 0 0;\n                line-height: 30px;\n                background-color: #ffffff;\n                color: #252020;\n            '></div>\n            <div style='position: relative; overflow: hidden;' id='colors-picker-dialog_canvas0_frame'>\n                <canvas\n                    id='colors-picker-dialog_canvas0'\n                    style='width:300px;height:160px;'\n                    width='300px'\n                    height='160px'>\n                        \u975E\u5E38\u62B1\u6B49\uFF0C\u60A8\u7684\u6D4F\u89C8\u5668\u4E0D\u652F\u6301canvas!\n                </canvas>\n                <span\n                    style='\n                        position: absolute;\n                        position: absolute;\n                        width: 12px;\n                        height: 12px;\n                        outline: 1px solid gray;\n                        border-radius: 50%;\n                        right: -6px;\n                        top: -6px;\n                        cursor:pointer;\n                    ' id='colors-picker-dialog_canvas0_btn'></span>\n            </div>\n            <div style='text-align:center;margin:20px 0;'>\n                <div\n                    id='colors-picker-dialog_color'\n                    style='\n                        display:inline-block;\n                        width:40px;\n                        height:40px;\n                        outline:1px solid gray;\n                        border-radius:50%;\n                        margin-right:10px;\n                '></div>\n                <div style='display:inline-block;'>\n                    <div style='position: relative;' id='colors-picker-dialog_canvas1_frame'>\n                        <div id='colors-picker-dialog_canvas1'\n                            style='\n                                width:200px;\n                                height:16px;\n                                background-image: linear-gradient(to right, #f00, #f0f,#00f,#0ff,#0f0,#ff0,#f00); '>\n                        </div>\n                        <span\n                            style='\n                                position: absolute;\n                                width: 22px;\n                                height: 22px;\n                                display: inline-block;\n                                border-radius: 50%;\n                                right: -11px;\n                                top: -3.5px;\n                                cursor:pointer;\n                                box-shadow: 0 0 2px 0px grey;\n                                background: #faf8f8;'\n                            id='colors-picker-dialog_canvas1_btn'></span>\n                    </div>\n                    <div style='margin-top:10px;position: relative;' id='colors-picker-dialog_canvas2_frame'>\n                        <div id='colors-picker-dialog_canvas2'\n                            style='\n                                width:200px;\n                                height:16px;\n                                background-image: linear-gradient(to right, #f000, red); '>\n                        </div>\n                        <span\n                            style='\n                                position: absolute;\n                                width: 22px;\n                                height: 22px;\n                                box-shadow: 0 0 2px 0px grey;\n                                display: inline-block;\n                                border-radius: 50%;\n                                right: -11px;\n                                top: -3.5px;\n                                cursor:pointer;\n                                background: #faf8f8;'\n                            id='colors-picker-dialog_canvas2_btn'></span>\n                    </div>\n                </div>\n            </div>\n            <div style='text-align:center;padding:10px;'>\n                <button\n                    id='colors-picker-dialog_btn_cancel'\n                    style='\n                        margin-right:30px;\n                        background-color:white;\n                        width:90px;\n                        border-radius:5px;\n                        cursor:pointer;\n                    '>\u53D6\u6D88</button>\n                <button\n                    id='colors-picker-dialog_btn_checked'\n                    style='\n                        background-color:#449cf6;\n                        color:white;width:90px;\n                        border-radius:5px;\n                        cursor:pointer;\n                    '>\u786E\u5B9A</button>\n            </div>\n        </div>");
+      dragdrop(); // 更新弹框结点
 
       dialog = document.getElementById('colors-picker-dialog');
       dialog.style.display = 'none';
@@ -610,30 +639,33 @@
       /**
        * 修改定位
        */
+      // let elPosition = target.getBoundingClientRect(); // 元素相对浏览器窗口的位置
+      // let elSize = xhtml.size(target);
 
-      var elPosition = target.getBoundingClientRect(); // 元素相对浏览器窗口的位置
-
-      var elSize = xhtml.size(target);
       var winSize = {
         width: window.innerWidth,
         height: window.innerHeight
       };
+      /**
+       * 由相对色块定位改成居中定位
+       * by 你好2007 于南京 2021年11月30日
+       */
 
-      if (elPosition.x + 300 > winSize.width) {
-        dialog.style.left = elPosition.x - 300 + elSize.width + "px";
-      } else {
-        dialog.style.left = elPosition.x + "px";
-      }
+      dialog.style.left = winSize.width * 0.5 - 150 + "px";
+      dialog.style.top = winSize.height * 0.5 - 142.5 + "px"; // if (elPosition.x + 300 > winSize.width) {
+      //     dialog.style.left = (elPosition.x - 300 + elSize.width) + "px";
+      // } else {
+      //     dialog.style.left = elPosition.x + "px";
+      // }
+      // if (elPosition.y + elSize.height + 285 > winSize.height) {
+      //     dialog.style.top = (elPosition.y - 285) + "px";
+      // } else {
+      //     dialog.style.top = (elPosition.y + elSize.height) + "px";
+      // }
 
-      if (elPosition.y + elSize.height + 285 > winSize.height) {
-        dialog.style.top = elPosition.y - 285 + "px";
-      } else {
-        dialog.style.top = elPosition.y + elSize.height + "px";
-      }
       /**
        * 初始化
        */
-
 
       var rgba = dialog._colors_picker_.target._color_; // 颜色盘和透明度颜色
 
@@ -644,7 +676,9 @@
 
       document.getElementById('colors-picker-dialog_canvas2_btn').style.left = rgba[3] * 200 - 11 + 'px'; // 修改颜色
 
-      document.getElementById('colors-picker-dialog_color').style.backgroundColor = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
+      document.getElementById('colors-picker-dialog_color').style.backgroundColor = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')'; // 标题
+
+      document.getElementById('colors-picker-dialog_move').innerText = title;
       /**
        * 显示出来
        */
@@ -656,6 +690,7 @@
   }
 
   var ColorsPicker = function ColorsPicker(el, initColor) {
+    var title = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '选择颜色';
     // 挂载点和颜色
     var target = el;
     var color = initColor ? formatColor(initColor) : [255, 255, 255, 1]; // 颜色回调方法
@@ -663,7 +698,7 @@
     var callbacks = [];
     var ColorsPickerInstance = {
       /**
-       * ColorsPicker(el,'red').then(color=>{
+       * ColorsPicker(el,'red','title').then(color=>{
        *      // todo
        * })
        */
@@ -687,7 +722,7 @@
       } finally {
         _iterator.f();
       }
-    });
+    }, title);
     return ColorsPickerInstance;
   }; // 判断当前环境，如果不是浏览器环境
 

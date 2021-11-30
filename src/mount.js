@@ -7,7 +7,9 @@ import drawColorCanvas from './tool/drawColorCanvas';
 import calcDeepWidthColor from './tool/calcDeepWidthColor';
 import updateColor from './tool/updateColor';
 
-export default function (target, color, callback) {
+import dragdrop from './dragdrop';
+
+export default function (target, color, callback, title) {
 
     let dialog = document.getElementById('colors-picker-dialog'), doit;
     target._color_ = color;
@@ -21,11 +23,22 @@ export default function (target, color, callback) {
         xhtml.append(document.body, `<div id='colors-picker-dialog'
                 style='
                     position: fixed;
-                    outline: gray solid 1px;
+                    box-shadow: 0 0 7px 1px #9393a0;
+                    border-radius: 5px;
                     background-color: white;
                     font-size:0;
                 '>
-            <div style='outline:1px solid gray;position: relative; overflow: hidden;' id='colors-picker-dialog_canvas0_frame'>
+            <div id='colors-picker-dialog_move' style='
+                font-size: 16px;
+                text-align: center;
+                user-select: none;
+                cursor: move;
+                border-radius: 5px 5px 0 0;
+                line-height: 30px;
+                background-color: #ffffff;
+                color: #252020;
+            '></div>
+            <div style='position: relative; overflow: hidden;' id='colors-picker-dialog_canvas0_frame'>
                 <canvas
                     id='colors-picker-dialog_canvas0'
                     style='width:300px;height:160px;'
@@ -122,6 +135,8 @@ export default function (target, color, callback) {
                     '>确定</button>
             </div>
         </div>`);
+
+        dragdrop();
 
         // 更新弹框结点
         dialog = document.getElementById('colors-picker-dialog');
@@ -241,24 +256,31 @@ export default function (target, color, callback) {
          * 修改定位
          */
 
-        let elPosition = target.getBoundingClientRect(); // 元素相对浏览器窗口的位置
-        let elSize = xhtml.size(target);
+        // let elPosition = target.getBoundingClientRect(); // 元素相对浏览器窗口的位置
+        // let elSize = xhtml.size(target);
         let winSize = {
             width: window.innerWidth,
             height: window.innerHeight
         };
 
-        if (elPosition.x + 300 > winSize.width) {
-            dialog.style.left = (elPosition.x - 300 + elSize.width) + "px";
-        } else {
-            dialog.style.left = elPosition.x + "px";
-        }
+        /**
+         * 由相对色块定位改成居中定位
+         * by 你好2007 于南京 2021年11月30日
+         */
+        dialog.style.left = (winSize.width * 0.5 - 150) + "px";
+        dialog.style.top = (winSize.height * 0.5 - 142.5) + "px";
 
-        if (elPosition.y + elSize.height + 285 > winSize.height) {
-            dialog.style.top = (elPosition.y - 285) + "px";
-        } else {
-            dialog.style.top = (elPosition.y + elSize.height) + "px";
-        }
+        // if (elPosition.x + 300 > winSize.width) {
+        //     dialog.style.left = (elPosition.x - 300 + elSize.width) + "px";
+        // } else {
+        //     dialog.style.left = elPosition.x + "px";
+        // }
+
+        // if (elPosition.y + elSize.height + 285 > winSize.height) {
+        //     dialog.style.top = (elPosition.y - 285) + "px";
+        // } else {
+        //     dialog.style.top = (elPosition.y + elSize.height) + "px";
+        // }
 
         /**
          * 初始化
@@ -277,6 +299,9 @@ export default function (target, color, callback) {
 
         // 修改颜色
         document.getElementById('colors-picker-dialog_color').style.backgroundColor = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
+
+        // 标题
+        document.getElementById('colors-picker-dialog_move').innerText = title;
 
         /**
          * 显示出来

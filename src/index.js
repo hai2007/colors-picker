@@ -1,7 +1,7 @@
 import formatColor from '@hai2007/browser/formatColor';
 import mount from './mount';
 
-let ColorsPicker = function (el, initColor) {
+let ColorsPicker = function (el, initColor,title='选择颜色') {
 
     // 挂载点和颜色
     let target = el;
@@ -13,7 +13,7 @@ let ColorsPicker = function (el, initColor) {
     let ColorsPickerInstance = {
 
         /**
-         * ColorsPicker(el,'red').then(color=>{
+         * ColorsPicker(el,'red','title').then(color=>{
          *      // todo
          * })
          */
@@ -28,7 +28,7 @@ let ColorsPicker = function (el, initColor) {
         for (let callback of callbacks) {
             callback(_color);
         }
-    });
+    },title);
 
     return ColorsPickerInstance;
 };
