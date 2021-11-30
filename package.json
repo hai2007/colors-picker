@@ -1,6 +1,6 @@
 {
   "name": "colors-picker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "一个类似浏览器调试工具中颜色选择器的H5版本的小组件。",
   "main": "dist/colors-picker.min.js",
   "scripts": {

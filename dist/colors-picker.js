@@ -4,12 +4,12 @@
  *
  * author 你好2007 < https://hai2007.gitee.io/sweethome >
  *
- * version 0.1.0
+ * version 0.1.1
  *
  * Copyright (c) 2021 hai2007 走一步，再走一步。
  * Released under the MIT license
  *
- * Date:Tue Nov 30 2021 11:55:14 GMT+0800 (中国标准时间)
+ * Date:Tue Nov 30 2021 13:10:43 GMT+0800 (中国标准时间)
  */
 (function () {
   'use strict';
@@ -614,11 +614,26 @@
       var elPosition = target.getBoundingClientRect(); // 元素相对浏览器窗口的位置
 
       var elSize = xhtml.size(target);
-      dialog.style.left = elPosition.x + "px";
-      dialog.style.top = elPosition.y + elSize.height + "px";
+      var winSize = {
+        width: window.innerWidth,
+        height: window.innerHeight
+      };
+
+      if (elPosition.x + 300 > winSize.width) {
+        dialog.style.left = elPosition.x - 300 + elSize.width + "px";
+      } else {
+        dialog.style.left = elPosition.x + "px";
+      }
+
+      if (elPosition.y + elSize.height + 285 > winSize.height) {
+        dialog.style.top = elPosition.y - 285 + "px";
+      } else {
+        dialog.style.top = elPosition.y + elSize.height + "px";
+      }
       /**
        * 初始化
        */
+
 
       var rgba = dialog._colors_picker_.target._color_; // 颜色盘和透明度颜色
 

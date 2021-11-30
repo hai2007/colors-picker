@@ -240,10 +240,25 @@ export default function (target, color, callback) {
         /**
          * 修改定位
          */
+
         let elPosition = target.getBoundingClientRect(); // 元素相对浏览器窗口的位置
         let elSize = xhtml.size(target);
-        dialog.style.left = elPosition.x + "px";
-        dialog.style.top = (elPosition.y + elSize.height) + "px";
+        let winSize = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+
+        if (elPosition.x + 300 > winSize.width) {
+            dialog.style.left = (elPosition.x - 300 + elSize.width) + "px";
+        } else {
+            dialog.style.left = elPosition.x + "px";
+        }
+
+        if (elPosition.y + elSize.height + 285 > winSize.height) {
+            dialog.style.top = (elPosition.y - 285) + "px";
+        } else {
+            dialog.style.top = (elPosition.y + elSize.height) + "px";
+        }
 
         /**
          * 初始化
