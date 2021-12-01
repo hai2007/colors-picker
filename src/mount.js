@@ -155,8 +155,7 @@ export default function (target, color, callback, title) {
             btn_flag = 2;
         });
 
-        // 移动
-        xhtml.bind(document.body, 'mousemove', event => {
+        let doMousemove = event => {
             if ([0, 1, 2].indexOf(btn_flag) > -1) {
 
                 let position = xhtml.mousePosition(document.getElementById('colors-picker-dialog_canvas' + btn_flag + '_frame'), event);
@@ -218,7 +217,19 @@ export default function (target, color, callback, title) {
                 }
 
             }
-        });
+        };
+
+        // 点击选择
+        for (let canvasIndex = 0; canvasIndex < 3; canvasIndex++) {
+            xhtml.bind(document.getElementById('colors-picker-dialog_canvas' + canvasIndex), 'click', event => {
+                btn_flag = canvasIndex;
+                doMousemove(event);
+                btn_flag = -1;
+            });
+        }
+
+        // 移动
+        xhtml.bind(document.body, 'mousemove', doMousemove);
 
         // 标记被清空
         xhtml.bind(document.body, 'mouseup', () => {

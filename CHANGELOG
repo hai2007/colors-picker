@@ -19,3 +19,7 @@ v0.3.0:
     date:2021-12-01
     changes:
       -  新增方法 ```ColorsPicker.openPicker``` 可以更灵活的使用，不依赖挂载点
+v0.3.1:
+    date:2021-12-01
+    changes:
+      - 优化滑动选择（新增点击选择）
