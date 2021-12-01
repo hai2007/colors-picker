@@ -4,12 +4,12 @@
  *
  * author 你好2007 < https://hai2007.gitee.io/sweethome >
  *
- * version 0.2.1
+ * version 0.3.0
  *
  * Copyright (c) 2021 hai2007 走一步，再走一步。
  * Released under the MIT license
  *
- * Date:Tue Nov 30 2021 23:10:12 GMT+0800 (GMT+08:00)
+ * Date:Wed Dec 01 2021 10:45:09 GMT+0800 (中国标准时间)
  */
 (function () {
   'use strict';
@@ -695,7 +695,7 @@
     var title = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '选择颜色';
     // 挂载点和颜色
     var target = el;
-    var color = initColor ? formatColor(initColor) : [255, 255, 255, 1]; // 颜色回调方法
+    var color = formatColor(initColor); // 颜色回调方法
 
     var callbacks = [];
     var ColorsPickerInstance = {
@@ -726,6 +726,32 @@
       }
     }, title);
     return ColorsPickerInstance;
+  };
+
+  var helpEl = null,
+      doback;
+
+  ColorsPicker.openPicker = function (initColor, _doback) {
+    var title = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '选择颜色';
+    doback = _doback;
+
+    if (helpEl === null) {
+      helpEl = document.createElement('button');
+      ColorsPicker(helpEl, initColor, title).then(function (color) {
+        doback(color);
+      });
+    } else {
+      var color = formatColor(initColor);
+      var dialog = document.getElementById('colors-picker-dialog'); // 修改标题
+
+      document.getElementById('colors-picker-dialog_move').innerText = title; // 修改颜色
+
+      dialog._colors_picker_.color_rgb = [color[0], color[1], color[2]];
+      dialog._colors_picker_.color_alpha = color[3];
+      dialog._colors_picker_.target._color_ = color;
+    }
+
+    helpEl.click();
   }; // 判断当前环境，如果不是浏览器环境
 
 

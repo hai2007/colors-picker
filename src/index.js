@@ -1,11 +1,11 @@
 import formatColor from '@hai2007/browser/formatColor';
 import mount from './mount';
 
-let ColorsPicker = function (el, initColor,title='选择颜色') {
+let ColorsPicker = function (el, initColor, title = '选择颜色') {
 
     // 挂载点和颜色
     let target = el;
-    let color = initColor ? formatColor(initColor) : [255, 255, 255, 1];
+    let color = formatColor(initColor);
 
     // 颜色回调方法
     let callbacks = [];
@@ -28,9 +28,38 @@ let ColorsPicker = function (el, initColor,title='选择颜色') {
         for (let callback of callbacks) {
             callback(_color);
         }
-    },title);
+    }, title);
 
     return ColorsPickerInstance;
+};
+
+let helpEl = null, doback;
+ColorsPicker.openPicker = function (initColor, _doback, title = '选择颜色') {
+    doback = _doback;
+
+    if (helpEl === null) {
+        helpEl = document.createElement('button');
+        ColorsPicker(helpEl, initColor, title).then(function (color) {
+            doback(color);
+        });
+    } else {
+
+        let color = formatColor(initColor);
+
+        let dialog = document.getElementById('colors-picker-dialog');
+
+        // 修改标题
+        document.getElementById('colors-picker-dialog_move').innerText = title;
+
+        // 修改颜色
+        dialog._colors_picker_.color_rgb = [color[0], color[1], color[2]];
+        dialog._colors_picker_.color_alpha = color[3];
+        dialog._colors_picker_.target._color_ = color;
+
+    }
+
+
+    helpEl.click();
 };
 
 // 判断当前环境，如果不是浏览器环境

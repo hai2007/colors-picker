@@ -59,6 +59,10 @@
             background-color: #1eff0087;
         }
 
+        #target2 {
+            background-color: #0b5bd487;
+        }
+
         pre {
             margin: 20px;
             padding: 10px;
@@ -91,8 +95,11 @@
     </p>
     <pre>&lt;script src='https://cdn.jsdelivr.net/npm/colors-picker@0'&gt;&lt;/script&gt;</pre>
     <h3>
-        语法
+        用法一
     </h3>
+    <h4>
+        语法
+    </h4>
     <pre>ColorsPicker(target, initColor,title='选择颜色').then(function (color) {
     // todo
 });</pre>
@@ -102,9 +109,9 @@
     <p>
         最后，通过then传递一个回调，其中的形参color表示你选择的颜色值。
     </p>
-    <h3>
+    <h4>
         例子
-    </h3>
+    </h4>
     <p>
         让我们举个例子：右边这个色块就是运行的效果：
         <span class="color" id='target1'></span>
@@ -125,6 +132,44 @@
         ColorsPicker(document.getElementById('target1'), '#1eff0087', '请选择颜色').then(function (color) {
             document.getElementById('target1').style.backgroundColor = color;
         });
+
+    </script>
+    <h3>
+        用法二
+    </h3>
+    <h4>
+        语法
+    </h4>
+    <pre>ColorsPicker.openPicker(initColor,function (color) {
+    // todo
+},title='选择颜色');</pre>
+    <p>
+        initColor是初始化颜色（合法的css值即可，格式无要求）。
+    </p>
+    <p>
+        最后，通过then传递一个回调，其中的形参color表示你选择的颜色值。
+    </p>
+    <h4>
+        例子
+    </h4>
+    <p>
+        让我们举个例子：右边这个色块就是运行的效果：
+        <span class="color" id='target2' onClick='doit()'></span>
+        （你可以点击一下试试效果，当然，色块的UI可以自由定义）。
+    </p>
+    <p>
+        你直接调用上面的选择方法即可：
+    </p>
+    <pre>ColorsPicker.openPicker('#0b5bd487',function (color) {
+    document.getElementById('target2').style.backgroundColor = color;
+});</pre>
+    <script>
+
+        function doit() {
+            ColorsPicker.openPicker('#1eff0087', function (color) {
+                document.getElementById('target2').style.backgroundColor = color;
+            }, '请选择颜色');
+        }
 
     </script>
 
