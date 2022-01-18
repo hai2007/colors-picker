@@ -6,10 +6,10 @@
  *
  * version 0.3.2
  *
- * Copyright (c) 2021 hai2007 走一步，再走一步。
+ * Copyright (c) 2021-2022 hai2007 走一步，再走一步。
  * Released under the MIT license
  *
- * Date:Tue Jan 18 2022 21:33:15 GMT+0800 (GMT+08:00)
+ * Date:Tue Jan 18 2022 21:40:59 GMT+0800 (GMT+08:00)
  */
 (function () {
   'use strict';
