@@ -120,10 +120,11 @@ export default function (target, color, callback, title) {
                     id='colors-picker-dialog_btn_cancel'
                     style='
                         margin-right:30px;
-                        background-color:white;
+                        background-color:#e0e0e0;
                         width:90px;
                         border-radius:5px;
                         cursor:pointer;
+                        border:none;
                     '>取消</button>
                 <button
                     id='colors-picker-dialog_btn_checked'
@@ -132,6 +133,7 @@ export default function (target, color, callback, title) {
                         color:white;width:90px;
                         border-radius:5px;
                         cursor:pointer;
+                        border:none;
                     '>确定</button>
             </div>
         </div>`);
