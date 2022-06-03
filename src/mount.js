@@ -125,6 +125,7 @@ export default function (target, color, callback, title) {
                         border-radius:5px;
                         cursor:pointer;
                         border:none;
+                        line-height:26px;
                     '>取消</button>
                 <button
                     id='colors-picker-dialog_btn_checked'
@@ -134,6 +135,7 @@ export default function (target, color, callback, title) {
                         border-radius:5px;
                         cursor:pointer;
                         border:none;
+                        line-height:26px;
                     '>确定</button>
             </div>
         </div>`);

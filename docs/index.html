@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>colors-picker | 一个类似浏览器调试工具中颜色选择器的H5版本的小组件。</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hai2007/style@0/normalize.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hai2007/style@0/doc-view.css">
+    <link rel="stylesheet" href="https://unpkg.com/@hai2007/style@0/normalize.css">
+    <link rel="stylesheet" href="https://unpkg.com/@hai2007/style@0/doc-view.css">
     <script src="./colors-picker.js"></script>
     <style>
         body {
@@ -93,7 +93,7 @@
     <p>
         当然，你也可以通过CDN的方式引入：
     </p>
-    <pre>&lt;script src='https://cdn.jsdelivr.net/npm/colors-picker@0'&gt;&lt;/script&gt;</pre>
+    <pre>&lt;script src='https://unpkg.com/colors-picker@0'&gt;&lt;/script&gt;</pre>
     <h3>
         用法一
     </h3>
@@ -125,7 +125,7 @@
         然后，就很简单了：
     </p>
     <pre>ColorsPicker(document.getElementById('target'), '#1eff0087').then(function (color) {
-    document.getElementById('target1').style.backgroundColor = color;
+    document.getElementById('target').style.backgroundColor = color;
 });</pre>
     <script>
 
@@ -161,7 +161,7 @@
         你直接调用上面的选择方法即可：
     </p>
     <pre>ColorsPicker.openPicker('#0b5bd487',function (color) {
-    document.getElementById('target2').style.backgroundColor = color;
+    document.getElementById('target').style.backgroundColor = color;
 });</pre>
     <script>
 

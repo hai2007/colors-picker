@@ -1,3 +1,7 @@
+<p align='center'>
+  <img src='./view.png' />
+</p>
+
 # [colors-picker](https://hai2007.github.io/colors-picker/)
 一个类似浏览器调试工具中颜色选择器的H5版本的小组件。
 
@@ -15,7 +19,31 @@
 
 ## How to use?
 
-<img src='./view.png' />
+首先你需要通过命令行安装，就像这样：
+
+```js
+npm install --save colors-picker
+```
+
+安装好了以后，引入：
+
+```js
+import ColorsPicker from 'colors-picker';
+```
+
+然后，你需要在页面中准备一个可点击的节点，比如一个```button```标签：
+
+```html
+<button id='target'>按钮</button>
+```
+
+最后，挂载点击交互即可：
+
+```js
+ColorsPicker(document.getElementById('target'), '#1eff0087').then(function (color) {
+    document.getElementById('target').style.backgroundColor = color;
+});
+```
 
 具体的使用你可以[查阅文档](https://hai2007.github.io/colors-picker)哦~
 
@@ -23,4 +51,4 @@
 ---------------------------------------
 [MIT](https://github.com/hai2007/colors-picker/blob/master/LICENSE)
 
-Copyright (c) 2021-2022 [hai2007](https://hai2007.gitee.io/sweethome/) 走一步，再走一步。
+Copyright (c) 2021-2022 [hai2007](https://hai2007.github.io/SweetHome/) 走一步，再走一步。
